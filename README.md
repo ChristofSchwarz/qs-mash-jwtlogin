@@ -30,12 +30,13 @@ https://senseserver.com/a/extensions/login/login.html
 
 ## Security Concerns
 
-This solution is based on Json Web Tokens which have been issued without a ValidTo-date and which are decrypted at client-side. There is no server authority checking the "local users", it works due to the fact that the issuer of the token has the private key of the  same certificate used at the virtual proxy (bearer authentication).
+This solution is based on Json Web Tokens which have been issued without a ValidTo-date and which are decrypted at client-side. There is no server authority checking the "local users", it works due to the fact that the issuer of the token has the private key of the  same certificate used at the virtual proxy (bearer authentication). Everything that is within this "mashup" is client-side logic and could even be hosted outside the Qlik Sense server. That's why we needed to set up another virtual proxy ("a" in above example) which accepts anonymous users, so before authentication everyone can least get to the /a/extensions/login/login.html page. (In theory he/she could also go to /a/hub or /a/qmc but would not have any further options there being anonymous).
 
- - To protect userid names, those are hashed.
- - To protect the JWT tokens, they were encrpyted with the choosen password during creation of the token
- - it can only be decrypted with the same password entered by that user
- - Everyone who uses that login can get access to the mapping table found in config.json (userid hashes and encrpyted bearer tokens) but noone can reuse it, giving a minimal chance for attacks.
+### How I protected the login information
+ - userid names are one-way hashed
+ - the JWT tokens were encrpyted with the choosen password during creation of the token
+ - the token can only be decrypted with the same password entered by that user (It is like a password-protected .zip where the token is in the zip)
+ - Everyone theoretically can get access to the mapping table found in config.json (userid hashes and encrpyted bearer tokens) but noone can reuse it, leaving minimum chance for attacks.
 
 ### Changing a password?
 A user cannot change is password himself. This would require a replacement of the previous mapping made in config.json (login object). The token would remain the same, but the en/decryption is new. 
