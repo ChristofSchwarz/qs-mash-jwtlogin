@@ -8,9 +8,6 @@ if (user == undefined || pass == undefined || userDir == undefined) {
     var jwt = require('jsonwebtoken');
     var fs = require('fs');
     var crypto = require('crypto-js');
-    console.log(crypto.MD5('Hello'));
-    //var CryptoJS = require('cryptojs');
-    //console.log(CryptoJS);
     var privateKey = fs.readFileSync('./client_key.pem');
     var token = jwt.sign({ UserId: user, UserDirectory: userDir }, privateKey, { algorithm: 'RS512'});
     console.log('');
