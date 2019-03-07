@@ -11,3 +11,7 @@ The format to create a new token is
 ```
 node createtoken.js directory userid password
 ```
+You should see this:
+
+![alttext](https://github.com/ChristofSchwarz/pics/raw/master/nodetoken.png "screenshot")
+
