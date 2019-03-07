@@ -22,4 +22,5 @@ This solution is based on Json Web Tokens which have been issued without a Valid
 To protect usernames, those are hashed.
 To protect the JWT token, it can only be decrypted with a password chosen for that user. 
 
-I am using CryptoJS for hashing, encrypting and decrypting.
+I am using CryptoJS for hashing, encrypting and decrypting. So it is quite hard to break in, but yet I don't recommend this as a production solution, just for setting up test users without any other dependency (such as Local Windows Users etc.)
+
