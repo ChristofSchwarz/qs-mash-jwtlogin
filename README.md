@@ -26,6 +26,7 @@ This is a custom Login Page based on JWT tokens, which works without any externa
 ## How to use
  - navigate to this login.html page via the __anonymous-only__ virtual proxy, e.g. if that proxy was "a" then this would be the url: 
 https://qmi-qs-sn/a/extensions/login/login.html
+ - there is also a testtoken.html page, which allows you to paste the token itself from the createtoken.js output. It doesn't ask for username/password, since the token itself contains the "payload" of who the user claims to be. 
 
 ## Security Concerns
 
