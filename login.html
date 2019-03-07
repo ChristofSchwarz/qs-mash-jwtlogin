@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+	<title>Login Page</title>
+	<meta charset="utf-8">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="login.css">
+	<script src="../../resources/assets/external/requirejs/require.js"></script>
+	<script src="crypto.js"></script>	
+	<script src="login.js"></script>
+</head>
+	
+<body>
+    <div class="sense-login-container">
+        <div class="qlik-logo">
+            <img src="./logo.png"> 
+        </div>
+        <noscript class="error-message js-disabled">
+            <div>
+                <header>JavaScript is disabled.</header>
+                <main><p class="jsDisabledMsg">This page will not work without JavaScript.</p></main>
+            </div>
+        </noscript>
+        <form class="login-form" id="login-form" spellcheck="false" autocorrect="off" autocapitalize="none">
+            <div id="error-message" class="error-message" tabindex="0">hallo error</div>
+
+            <label for="username-input">User name</label>
+            <input type="text" id="username-input" name="username" class="lui-input qlik-username" placeholder="user" aria-describedby="username-hint">
+            <span id="username-hint" class="hidden">domain\user</span>
+
+            <label for="password-input">Password</label>
+            <input type="password" id="password-input" class="lui-input qlik-password" name="pwd">
+
+            <input type="submit" id="loginbtn" class="lui-button qlik-submit" value="Log in" />
+        </form>
+		<div style="padding-top:11px;">
+			Login Server:<br /><span id="loginServer">bad config.json</span>
+		</div>
+    </div>
+</body>
+</html>
