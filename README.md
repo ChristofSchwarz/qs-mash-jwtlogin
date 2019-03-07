@@ -1,6 +1,5 @@
-# qs-mash-jwtlogin
-Custom Login Page with JWT and self-contained authorization. 
-Special thanks to Thomas Haenig, Akquinet sharing this https://github.com/q2g/q2g-web-jwtproxyredirect which is at the heart of this solution.
+# Self-contained JWT-based Login Solution for Qlik Sense
+This is a custom Login Page based on JWT tokens, which works without any external authorization authority like Local Windows Accounts etc. Use it for testing. Special thanks to Thomas Haenig, Akquinet, for sharing this https://github.com/q2g/q2g-web-jwtproxyredirect which is part of this solution.
 
 ## How to set up
 
@@ -41,5 +40,5 @@ This solution is based on Json Web Tokens which have been issued without a Valid
 A user cannot change is password himself. This would require a replacement of the previous mapping made in config.json (login object). The token would remain the same, but the en/decryption is new. 
 
 ### Final considerations
-I am using CryptoJS for hashing, encrypting and decrypting. So it is quite hard to break in, but yet __I don't recommend this as a production solution__, just for setting up test users without any other dependency (such as Local Windows Users etc.)
+I am using CryptoJS for hashing, encrypting and decrypting. So it is quite hard to break in, but yet __I don't recommend this as a production solution__, just for setting up test users without any other dependency
 
