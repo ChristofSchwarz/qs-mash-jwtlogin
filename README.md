@@ -9,8 +9,15 @@ Install and upload this extension (download as .zip)
    * one with authentication JWT. To set it up, you will need the certificate (if you have no own reuse the client.pem content from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates)
  - Open and edit the "Login" mashup with /dev-hub and edit the config.json page
  - Edit the settings for host, proxy (the one you set up with JWT) and target address (like /hub or /hub/stream/xxx)
- - Create a token using node.exe and the client_key.pem
- - add the screen output to the config.json
+ - You need NodeJS and the createtoken.js found in subfolder <a href="https://github.com/ChristofSchwarz/qs-mash-jwtlogin/tree/master/node_createtokens">node_createtokens</a>
+   * Copy the matching client_key into the same folder (node_createtokens) as file "client_key.pem"
+   * issue some tokens for users.
+ - copy/paste the screen output to the config.json which looks like this
+ ```
+ Add this to config.json:
+
+,"5d9c68c6c50ed3d02a2fcf54f63993b6": "U2FsdGVkX1+0GqoqLpMd+0UyMlxyt636nMXTJKKANekjFescZVG2eFTvxPOqAixplmjhGQyWXRRFtVrf3Qm4ObXqlMisYe44PQhNAGa+Q7K3eviwFgfENJH/ej1pIQFGlACRy1eniEqpw/d93XLaPlpOOrHfEFr2cjt5kRPTdbTikJvVnBhO0inyd+WIpPeCXgKS3R3aTXBpGLouVPwd6JGlJtPxwiSXVc8Gdp8lz6vp++8VPtUGIJIqCejOfvAQIStKAyVNqZUyZO7tp8JAJyKI25Du1k4bwutPRRivWzx34hTNS6Ul+I3qVMPk+YjD6Qbd+GxoDav8tnybua0AECIbRxjjVXIttWELXdWNpMZKlQQ+jVKOea7RdNmZvX7MYATNmVYacpvfUEw41UbXN/+hZe/8mL+Re7cbZe4ahO5ZIMLJImns8wQUhcMX3l1aPPptyqdlL6svtbsI766ZYfVal4aMunEp2zEqY/s4rDWU3y5S9Ufhj7ehGUtjcXu5Op1qjGSgtUmoNLO2uOkFuB6rqrFgU7+s1QIfLl7Pyx8AdIuI6Yj2+n7npGrjcvRgSA9nC0bwn/88sH+Eyn73KWr0fbsl/FOAGpTnAUwWzu0tNH+DzAQRvrZuS057//Ao8f57lPbSWo9TAXrh8lhx5Q=="
+ ```
 
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/jwttokenslogin.gif "screenshot")
 
