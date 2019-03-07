@@ -4,8 +4,9 @@ This is a custom Login Page based on JWT tokens, which works without any externa
 ## How to set up
 
  - Create two virtual proxies
-   * one with authentication set to "only anonymous" 
+   * one with authentication set to "only anonymous" (I called this virtual proxy "a" below)
    * one with authentication JWT. To set it up, you will need the certificate (if you have no own reuse the client.pem content from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates)
+   * don't forget to link both virtual proxies with the Central Proxy
  - Install Extension 
    * Download this git as .zip
    * if needed replace logo.png (Qlik Sense) with your own in the .zip
