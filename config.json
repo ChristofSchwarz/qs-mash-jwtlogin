@@ -1,8 +1,8 @@
 {
     "host": "qmi-qs-sn",
     "proxy": "iqvia",
-	"target": "hub/stream/aaec8d41-5201-43ab-809f-3063750dfafd",
-	"logins": {		
-		"key": "value"
-	}		
+    "target": "hub/my/work",
+    "logins": {		
+        "key": "value"
+    }		
 }
