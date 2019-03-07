@@ -40,5 +40,5 @@ This solution is based on Json Web Tokens which have been issued without a Valid
 A user cannot change is password himself. This would require a replacement of the previous mapping made in config.json (login object). The token would remain the same, but the en/decryption is new. 
 
 ### Final considerations
-I am using CryptoJS for hashing, encrypting and decrypting. So it is quite hard to break in, but yet __I don't recommend this as a production solution__, just for setting up test users without any other dependency
+I am using CryptoJS for hashing, encrypting and decrypting. So it is quite hard to break in, but yet __I don't recommend this as a production solution__, just for setting up test users without any other dependency. If you can, use ticketing solutions, SAML or JWT with an external IDP instead.
 
