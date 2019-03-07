@@ -23,7 +23,7 @@ https://qmi-qs-sn/a/extensions/login/login.html
 This solution is based on Json Web Tokens which have been issued without a ValidTo-date and which are decrypted at client-side. There is no server authority checking the "local users", it works due to the fact that the issuer of the token has the private key of the  same certificate used at the virtual proxy (bearer authentication).
 
  - To protect userid names, those are hashed.
- - To protect the JWT token, it was encrpyted with the choosen password during creation of the token
+ - To protect the JWT tokens, they were encrpyted with the choosen password during creation of the token
  - it can only be decrypted with the same password entered by that user
  - Everyone who uses that login can get access to the mapping table found in config.json (userid hashes and encrpyted bearer tokens) but noone can reuse it, giving a minimal chance for attacks.
 
