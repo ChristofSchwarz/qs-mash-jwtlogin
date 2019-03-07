@@ -1,5 +1,6 @@
 # qs-mash-jwtlogin
-Custom Login Page with JWT and self-contained authorization
+Custom Login Page with JWT and self-contained authorization. 
+Special thanks to Thomas Haenig, Akquinet sharing this https://github.com/q2g/q2g-web-jwtproxyredirect which is at the heart of this solution.
 
 ## How to set up
 Install and upload this extension (download as .zip)
@@ -14,3 +15,11 @@ https://qmi-qs-sn/a/extensions/login/login.html
 
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/jwttokenslogin.gif "screenshot")
 
+## Security Concerns
+
+This solution is based on Json Web Tokens which have been issued without a ValidTo-date and which are decrypted at client-side. There is no server authority checking the "local users", it works due to the fact that the issuer of the token has the private key of the certificate used at the virtual proxy.
+
+To protect usernames, those are hashed.
+To protect the JWT token, it can only be decrypted with a password chosen for that user. 
+
+I am using CryptoJS for hashing, encrypting and decrypting.
