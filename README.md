@@ -3,10 +3,14 @@ Custom Login Page with JWT and self-contained authorization.
 Special thanks to Thomas Haenig, Akquinet sharing this https://github.com/q2g/q2g-web-jwtproxyredirect which is at the heart of this solution.
 
 ## How to set up
-Install and upload this extension (download as .zip)
+
  - Create two virtual proxies
    * one with authentication set to "only anonymous" 
    * one with authentication JWT. To set it up, you will need the certificate (if you have no own reuse the client.pem content from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates)
+ - Install Extension 
+   * Download this git as .zip
+   * if needed replace logo.png (Qlik Sense) with your own in the .zip
+   * Import the .zip as a new extension using /qmc on your server
  - Open and edit the "Login" mashup with /dev-hub and edit the config.json page
  - Edit the settings for host, proxy (the one you set up with JWT) and target address (like /hub or /hub/stream/xxx)
  - You need NodeJS, npm and the createtoken.js found in subfolder <a href="https://github.com/ChristofSchwarz/qs-mash-jwtlogin/tree/master/node_createtokens">node_createtokens</a> as well as 3 modules (crypto-js jsonwebtoken fs)
