@@ -1,8 +1,3 @@
 {
-    "host": "qmi-qs-sn",
-    "proxy": "iqvia",
-    "target": "hub/my/work",
-    "logins": {		
-        "key": "value"
-    }		
+  "redirUrl": "/jwt/hub/my/work"
 }
