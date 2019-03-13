@@ -8,24 +8,36 @@
 	<script src="../../resources/assets/external/requirejs/require.js"></script>
 	<script>
 	var hrefArr = window.location.href.split("?");
-	var bearer = hrefArr[1].split("=")[1];
-	console.log(bearer);
-	$.getJSON( "./config.json", function( config ) {
-		console.log(config);
-		$.ajax({
-			type: "GET",
-			beforeSend: function(request) {
-					request.setRequestHeader("Authorization", "Bearer " + bearer);
-			},
-			url: "https://" + config.host + "/" + config.proxy + "/hub",
-			success: function() {
-					window.location.replace("https://" + config.host + "/" + config.proxy + "/hub");
-			},
-			error: function (error) {
-				console.log("error", error);
+	var bearer = (hrefArr.length > 1)? hrefArr[1].split("=")[1] : null;
+	if (bearer) {
+		console.log('token: '+bearer);
+		var getJson = new XMLHttpRequest;
+		getJson.onreadystatechange = function() {
+			if (getJson.readyState == 4 && getJson.status == 200) {
+				var config = JSON.parse(getJson.responseText);
+				console.log('Redirecting to: ', config.redirUrl);
+				var data = null;
+				var xhr = new XMLHttpRequest();
+				xhr.withCredentials = true;
+				xhr.onreadystatechange = function () {
+					if (this.readyState === 4) {
+						if (xhr.status == 200) {
+							window.location.href = config.redirUrl;
+						} else {
+							alert(xhr.status + ': ' + xhr.statusText);
+						}
+					}
+				};
+				xhr.open("GET", config.redirUrl);
+				xhr.setRequestHeader("Authorization", "Bearer " + bearer);
+				xhr.setRequestHeader("cache-control", "no-cache");
+				xhr.send(data);					
 			}
-		});
-	});
+		}
+		getJson.open("GET", "./config.json")
+		getJson.send();
+
+	} 
 	</script>
 </head>
 <body>
@@ -34,7 +46,7 @@
             <img src="./logo.png"> 
         </div>
 		Got a token? Try it.
-		<form method="GET">
+		<form method="GET">	
 	 		<input name="token" class="lui-input qlik-username">
 	  		<input type="submit" id="loginbtn" class="lui-button qlik-submit" value="Log in" />
 		</form>
