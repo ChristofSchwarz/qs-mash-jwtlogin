@@ -8,7 +8,7 @@ This is a custom Login Page based on JWT tokens, which works without any externa
  - Create two virtual proxies
    * one with authentication set to "only anonymous" (I called this virtual proxy "a" below)
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/vproxyscreen2.png "screenshot")   
-   * one with authentication JWT. To set it up, you will need the certificate (if you have no own, then reuse the client.pem content from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates)
+   * one with authentication JWT. To set it up, you will need the certificate (if you have no own, then take the __client_key.pem__ file from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates)
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/vproxyscreen1.png "screenshot")      
    * don't forget to link both virtual proxies with the Central Proxy
  - Install Extension 
