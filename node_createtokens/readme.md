@@ -13,6 +13,10 @@ The format to create a new token is
 ```
 node createtoken.js directory userid password
 ```
+If you run this from Qlik Sense Server computer, you don't have to install NodeJs since this is preinstalled with Qlik Sense already. You can run this command:
+```
+"C:\Program Files\Qlik\Sense\ServiceDispatcher\Node\node.exe" createtoken.js directory userid password
+```
 You should see this:
 
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/nodetoken.png "screenshot")
