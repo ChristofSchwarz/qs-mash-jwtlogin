@@ -17,12 +17,13 @@ This is a custom Login Page based on JWT tokens, which works without any externa
    * if needed replace logo.png (Qlik Sense) with your own in the .zip
    * Import the .zip as a new extension using /qmc on your server
  - Open and edit the "Login" mashup with /dev-hub and edit the config.json page
- - Edit the settings for host, proxy (the one you set up with JWT) and target address (like /hub or /hub/stream/xxx)
+ - Edit the setting for "redirUrl" to a relative or absolute target address (like /vproxy/hub or https://myserver/vproxy/hub/stream/xxx) 
+   * it must contain the same virtual proxy that you just set up for JWT authorization above
  - Issue tokens for the users 
    * Follow instructions found in subfolder <a href="https://github.com/ChristofSchwarz/qs-mash-jwtlogin/tree/master/node_createtokens">node_createtokens</a>, you'll need node, npm and to install 3 modules
    * Copy the matching client_key into the same folder (node_createtokens) as file "client_key.pem"
    * tokens can be issued on another computer, it doesn't need to happen on the Sense server's remote-console (you edit the mashup via browser and that's where you add new users)
- - copy/paste the screen output to the config.json, each row looks like this
+ - copy/paste the screen output to the config.json, but the first row ("redirUrl": "...") unchanged. Each row looks like this
  ```
 ,"5d9e68c6c50ed3d02a2fcf54f63993b6": "U2FsdGVkX1+0GqoqLpMd+0UyMlxyt636nMXTJKKANekjFescZVG2eFTvxPOqAixplmjhGQyWXRRFtVrf3Qm4ObXqlMisYe44PQhNAGa+Q7K3eviwFgfENJH/ej1pIQFGlACRy1eniEqpw/d93XLaPlpOOrHfEFr2cjt5kRPTdbTikJvVnBhO0inyd+WIpPeCXgKS3R3aTXBpGLouVPwd6JGlJtPxwiSXVc8Gdp8lz6vp++8VPtUGIJIqCejOfvAQIStKAyVNqZUyZO7tp8JAJyKI25Du1k4bwutPRRivWzx34hTNS6Ul+I3qVMPk+YjD6Qbd+GxoDav8tnybua0AECIbRxjjVXIttWELXdWNpMZKlQQ+jVKOea7RdNmZvX7MYATNmVYacpvfUEw41UbXN/+hZe/8mL+Re7cbZe4ahO5ZIMLJImns8wQVhcMX3l1aPPptyqdlL6svtbsI766ZYfVal4aMunEp2zEqY/s4rDWU3y5S9Ufhj7ehGUtjcXu5Op1qjGSgtUmoNLO2uOkFuB6rqrFgU7+s1QIfLl7Pyx8AdIuI6Yj2+n7npGrjcvRgSA9nC0bwn/88sH+Eyn73KWr0fbsl/FOAGpTnAUwWzu0tNH+DzAQRvrZuS057//Ao8f57lPbSWo9TAXrh8lhx5Q=="
  ```
