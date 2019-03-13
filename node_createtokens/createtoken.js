@@ -1,6 +1,8 @@
-var userDir = process.argv[2].toUpperCase();
-var user = process.argv[3].toLowerCase();
+var userDir = process.argv[2];
+var user = process.argv[3];
 var pass = process.argv[4];
+const defaultCertPath = 'C:\\ProgramData\\Qlik\\Sense\\Repository\\Exported Certificates\\.Local Certificates';
+
 if (user == undefined || pass == undefined || userDir == undefined) {
     console.log('This .js requires 3 parameters: [userDir] [user] [password] as command-line arguments.');
 } else {
@@ -8,8 +10,8 @@ if (user == undefined || pass == undefined || userDir == undefined) {
     var jwt = require('jsonwebtoken');
     var fs = require('fs');
     var crypto = require('crypto-js');
-    var privateKey = fs.readFileSync('./client_key.pem');
-    var token = jwt.sign({ UserId: user, UserDirectory: userDir }, privateKey, { algorithm: 'RS512'});
+    var privateKey = fs.existsSync('./client_key.pem')?fs.readFileSync('./client_key.pem'):fs.readFileSync(`${defaultCertPath}\\client_key.pem`);
+    var token = jwt.sign({ UserId: user.toLowerCase(), UserDirectory: userDir.toUpperCase() }, privateKey, { algorithm: 'RS512'});
     console.log('');
     console.log('JWT token below:');
     console.log('');
@@ -21,4 +23,3 @@ if (user == undefined || pass == undefined || userDir == undefined) {
     console.log('');
     console.log(`,"${encryptedUser}": "${encryptedToken}"`);
 }
-
