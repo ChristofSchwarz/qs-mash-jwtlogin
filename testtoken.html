@@ -6,6 +6,19 @@
 	<title>Qlik Sense Redirect Mashup</title>
 	<meta charset="utf-8">
 	<script src="../../resources/assets/external/requirejs/require.js"></script>
+</head>
+<body>
+	<div class="sense-login-container">
+		<div class="qlik-logo">
+            <img src="./logo.png"> 
+        </div>
+		Got a token? Try it.
+		<form method="GET">	
+            <div id="error-message" class="error-message" tabindex="0"></div>
+	 		<input name="token" class="lui-input qlik-username">
+	  		<input type="submit" id="loginbtn" class="lui-button qlik-submit" value="Log in" />
+		</form>
+	</div>
 	<script>
 	var hrefArr = window.location.href.split("?");
 	var bearer = (hrefArr.length > 1)? hrefArr[1].split("=")[1] : null;
@@ -15,41 +28,33 @@
 		getJson.onreadystatechange = function() {
 			if (getJson.readyState == 4 && getJson.status == 200) {
 				var config = JSON.parse(getJson.responseText);
-				console.log('Redirecting to: ', config.redirUrl);
+				var redirUrl = config.redirUrl;
+				redirUrl += ((redirUrl.indexOf('?') < 0) ? '?' : '&') + 'rnd=' + Math.random();
+				console.log('Redirecting to: ', redirUrl);
+				
 				var data = null;
 				var xhr = new XMLHttpRequest();
 				xhr.withCredentials = true;
 				xhr.onreadystatechange = function () {
-					if (this.readyState === 4) {
-						if (xhr.status == 200) {
-							window.location.href = config.redirUrl;
-						} else {
-							alert(xhr.status + ': ' + xhr.statusText);
-						}
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						window.location.href = redirUrl;
+					} else if (xhr.readyState == 4) {
+						document.getElementById('error-message').style.display = 'block';
+						document.getElementById('error-message').innerHTML = xhr.status + ': ' + xhr.statusText;							
 					}
 				};
-				xhr.open("GET", config.redirUrl);
+				xhr.open("GET", redirUrl);
 				xhr.setRequestHeader("Authorization", "Bearer " + bearer);
 				xhr.setRequestHeader("cache-control", "no-cache");
 				xhr.send(data);					
+			} else if (getJson.readyState == 4) {
+				document.getElementById('error-message').style.display = 'block';
+				document.getElementById('error-message').innerHTML = getJson.status + ': ' + getJson.statusText;				
 			}
 		}
-		getJson.open("GET", "./config.json")
+		getJson.open("GET", "./config.json?rnd=" + Math.random());
 		getJson.send();
-
 	} 
 	</script>
-</head>
-<body>
-	<div class="sense-login-container">
-		<div class="qlik-logo">
-            <img src="./logo.png"> 
-        </div>
-		Got a token? Try it.
-		<form method="GET">	
-	 		<input name="token" class="lui-input qlik-username">
-	  		<input type="submit" id="loginbtn" class="lui-button qlik-submit" value="Log in" />
-		</form>
-	</div>
 </body>
 </html>
