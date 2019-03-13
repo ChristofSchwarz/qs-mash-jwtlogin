@@ -7,7 +7,7 @@ Prerequisites:
 npm install crypto-js jsonwebtoken fs
 ```
  * place your RSA PRIVATE KEY file in the same folder as createtoken.js and name it __client_key.pem__
-   - if you run this from the Qlik Sense Server computer, you don't have to copy client_key.pem, since createtoken.js will also look into "C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\.Local Certificates"
+   - if you run this from the Qlik Sense Server computer, you don't have to copy client_key.pem, since createtoken.js will also look into "C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates"
  
 The format to create a new token is 
 ```
