@@ -10,7 +10,9 @@ if (user == undefined || pass == undefined || userDir == undefined) {
     var jwt = require('jsonwebtoken');
     var fs = require('fs');
     var crypto = require('crypto-js');
-    var privateKey = fs.existsSync('./client_key.pem')?fs.readFileSync('./client_key.pem'):fs.readFileSync(`${defaultCertPath}\\client_key.pem`);
+    var privateKeyFile = fs.existsSync('./client_key.pem')?`./client_key.pem`:`${defaultCertPath}\\client_key.pem`;
+    console.log(`Using private key "${privateKeyFile}"`);
+    var privateKey = fs.readFileSync(privateKeyFile);
     var token = jwt.sign({ UserId: user.toLowerCase(), UserDirectory: userDir.toUpperCase() }, privateKey, { algorithm: 'RS512'});
     console.log('');
     console.log('JWT token below:');
