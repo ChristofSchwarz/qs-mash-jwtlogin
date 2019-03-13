@@ -1,7 +1,7 @@
 # Create your tokens 
 
 Prerequisites:
- * 2 node modules to be installed:
+ * 3 node modules to be installed:
 ```
 npm install crypto-js jsonwebtoken fs
 ```
