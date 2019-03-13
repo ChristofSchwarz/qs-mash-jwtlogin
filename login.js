@@ -1,10 +1,23 @@
+var getJson = new XMLHttpRequest;
 var config;
-$.getJSON( "./config.json", function( ret ) {
-	config = ret;
-	delete config.logins["key"]; // remove one key from object 
-	$("#loginServer").text(config.host);
-	console.log(Object.keys(config.logins).length + ' user(s) set up.');	
-});
+getJson.open("GET", "./config.json?rnd=" + Math.random());
+getJson.onreadystatechange = function() {
+	if (getJson.readyState == 4 && getJson.status == 200) {
+		try {
+			config = JSON.parse(getJson.responseText);
+			console.log((Object.keys(config).length - 1) + ' user(s) set up.');
+		} 
+		catch(err) {
+			document.getElementById('error-message').style.display = 'block';
+			document.getElementById('error-message').innerText = 'config.json has bad format';
+			console.log(err);
+		}	
+	} else if (getJson.readyState == 4) {
+		alert('Cannot get config.json');
+		console.log(getJson.status + ': ' + getJson.statusText);				
+	}
+}
+getJson.send();
 
 window.addEventListener("load", function () {
 	// Access the form element...
@@ -17,38 +30,43 @@ window.addEventListener("load", function () {
 		var user = document.getElementById("username-input").value.toLowerCase();
 		var pwd = document.getElementById("password-input").value;
 		if ((user.length * pwd.length) == 0) {
-			$("#error-message").text("Please fill in username and password").css("display","block");
+			em.style.display = 'block';
+			em.innerText = 'Please fill in username and password';
 			return false;
 		} 
 		var lookup = CryptoJS.MD5(user) + "";
-		var token = config.logins[lookup];
+		var token = config[lookup];
 		if (token == undefined) {
 			em.innerHTML = "Unknown user";
 			em.style.display = 'block';
 		} else {
 			try {
 				var bearer = CryptoJS.AES.decrypt(token, pwd).toString(CryptoJS.enc.Utf8);		
-
-				$.ajax({
-					type: "GET",
-					beforeSend: function(request) {
-							request.setRequestHeader("Authorization", "Bearer " + bearer);
-					},
-					url: "https://" + config.host + "/" + config.proxy + "/sense/app",
-					success: function() {
-						window.location.replace("https://" + config.host + "/" + config.proxy + "/" + config.target);
-					},
-					error: function (error) {
-						console.log("error", error);
+				var redirUrl = config.redirUrl;
+				redirUrl += ((redirUrl.indexOf('?') < 0) ? '?' : '&') + 'rnd=' + Math.random();
+				console.log('Redirecting to: ', redirUrl);
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", redirUrl);
+				xhr.setRequestHeader("Authorization", "Bearer " + bearer);
+				xhr.setRequestHeader("cache-control", "no-cache");				
+				xhr.withCredentials = true;
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						window.location.href = redirUrl;
+					} else if (xhr.readyState == 4) {
+						document.getElementById('error-message').style.display = 'block';
+						document.getElementById('error-message').innerHTML = 'Your access-token was rejected.';							
 					}
-				});
+				};
+				xhr.send();									
+
 			}
-			catch {
-				$("#error-message").text("Invalid password").css("display","block");
+			catch(err) {
+				em.style.display = 'block';
+				em.innerText = "Invalid password";
+				console.log(err);
 			}
 		}	
 	});
 });
-
-
 
