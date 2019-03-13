@@ -69,4 +69,3 @@ window.addEventListener("load", function () {
 		}	
 	});
 });
-
