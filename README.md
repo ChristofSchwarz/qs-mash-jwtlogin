@@ -34,8 +34,8 @@ This is a custom Login Page based on JWT tokens, which works without any externa
 
 
 ## How to use
- - navigate to this login.html page via the __anonymous-only__ virtual proxy, e.g. if that proxy was "a" then this would be the url: 
-https://senseserver.com/a/extensions/login/login.html
+ - navigate to this login.html page via the __anonymous-only__ virtual proxy, e.g. if that proxy was "extern" then this would be the url: 
+https://senseserver.com/extern/extensions/login/login.html
  - there is also a page /extensions/login/testtoken.html, which allows you to paste the token itself (printed on the screen by executing createtoken.js). It doesn't ask for username/password, since the token itself contains the "payload" of who the user claims to be. __But don't give the token to the user__ since it is not possible to revoke access with future consumptions of that token (only by reconfiguring the jwt virtual proxy)
 
 ## Security Concerns
