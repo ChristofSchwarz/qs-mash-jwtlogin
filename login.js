@@ -43,10 +43,10 @@ window.addEventListener("load", function () {
 		
 		if (user) {
 			user = user.value.toLowerCase();
-			if (user.length == 0) {
-				showErr('Please enter username.');
-				return false;
-			} 
+			if (user.length == 0) return showErr('Please enter username.');
+			var userHash = CryptoJS.MD5(user) + "";
+			encToken = config[userHash];
+			if (encToken == undefined) return showErr('Unknown user');
 		}
 		if (pwd) {
 			pwd = pwd.value;
@@ -55,18 +55,11 @@ window.addEventListener("load", function () {
 		if (bearer) {
 			bearer = bearer.value
 		} else {
-			var userHash = CryptoJS.MD5(user) + "";
-			encToken = config[userHash];
-			if (encToken == undefined) {
-				showErr('Unknown user');
-				return false;
-			}
 			try {
 				bearer = CryptoJS.AES.decrypt(encToken, pwd).toString(CryptoJS.enc.Utf8);		
 			}
 			catch (err) {
-				showErr('Invalid password');
-				return false;
+				return showErr('Invalid password');
 			}
 		}
 
