@@ -6,11 +6,11 @@ This is a custom Login Page based on JWT tokens, which works without any externa
 ## How to set up
 
  - Create two virtual proxies
-   * one with authentication set to "only anonymous" (I called this virtual proxy "a" below)
+   * Setup a Virtual Proxy with authentication "only anonymous" (I called this virtual proxy "extern" below)
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/vproxyscreen2.png "screenshot")   
-   * one with authentication JWT. To set it up, you will need the certificate (if you have no own, then open the __client.pem__ file from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates and copy/paste the content into the certificate field of the Virtual Proxy)
    * don't forget to set the load-balancing to the Central node (or others if you've got rim nodes)
    * don't forget to link this virtual proxies with the Central Proxy
+   * Setup a Virtual Proxy with authentication "JWT". To set it up, you will need the certificate (if you have no own, then open the __client.pem__ file from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates and copy/paste the content into the certificate field of the Virtual Proxy)   
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/vproxyscreen1.png "screenshot")      
    * add the base url of the server to the White-List under "Advanced" settings
    * don't forget to set the load-balancing to the Central node (or others if you've got rim nodes)
@@ -40,7 +40,7 @@ https://senseserver.com/a/extensions/login/login.html
 
 ## Security Concerns
 
-This solution is based on Json Web Tokens which have been issued without a ValidTo-date and will be presented in the http-header as bearer token. The bearer token is stored encrypted and only the user can decrypt the token with his password. There is no server authority checking the validity of the "local users", it works due to the fact that the issuer of the token has the private key of the  same certificate used at the virtual proxy (bearer authentication). Everything hereby is __client-side logic__ and this "mashup" could even be hosted outside the Qlik Sense server. That's why we needed to set up another virtual proxy ("a" in above example) which accepts anonymous users, so everyone can least get to the /a/extensions/login/login.html page. (In theory he/she could also go to /a/hub or /a/qmc but would not have any further options there being anonymous).
+This solution is based on Json Web Tokens which have been issued without a ValidTo-date and will be presented in the http-header as bearer token. The bearer token is stored encrypted and only the user can decrypt the token with his password. There is no server authority checking the validity of the "local users", it works due to the fact that the issuer of the token has the private key of the  same certificate used at the virtual proxy (bearer authentication). Everything hereby is __client-side logic__ and this "mashup" could even be hosted outside the Qlik Sense server. That's why we needed to set up another virtual proxy ("extern" in above example) which accepts anonymous users, so everyone can least get to the /extern/extensions/login/login.html page. (In theory he/she could also go to /a/hub or /a/qmc but would not have any further options there being anonymous).
 
 ### How I protected the login information
  - userid names are one-way hashed
