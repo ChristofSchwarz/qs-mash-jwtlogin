@@ -6,6 +6,7 @@
 	<title>Qlik Sense Redirect Mashup</title>
 	<meta charset="utf-8">
 	<script src="../../resources/assets/external/requirejs/require.js"></script>
+	<script src="login.js"></script>	
 </head>
 <body>
 	<div class="sense-login-container">
@@ -13,48 +14,13 @@
             <img src="./logo.png"> 
         </div>
 		Got a token? Try it.
-		<form method="GET">	
+		<form method="GET" class="login-form" id="login-form" spellcheck="false" autocorrect="off" autocapitalize="none">	
             <div id="error-message" class="error-message" tabindex="0"></div>
-	 		<input name="token" class="lui-input qlik-username">
+	 		<input name="token" id="token-input" class="lui-input qlik-username">
 	  		<input type="submit" id="loginbtn" class="lui-button qlik-submit" value="Log in" />
 		</form>
 	</div>
 	<script>
-	var hrefArr = window.location.href.split("?");
-	var bearer = (hrefArr.length > 1)? hrefArr[1].split("=")[1] : null;
-	if (bearer) {
-		console.log('token: '+bearer);
-		var getJson = new XMLHttpRequest;
-		getJson.onreadystatechange = function() {
-			if (getJson.readyState == 4 && getJson.status == 200) {
-				var config = JSON.parse(getJson.responseText);
-				var redirUrl = config.redirUrl;
-				redirUrl += ((redirUrl.indexOf('?') < 0) ? '?' : '&') + 'rnd=' + Math.random();
-				console.log('Redirecting to: ', redirUrl);
-				
-				var data = null;
-				var xhr = new XMLHttpRequest();
-				xhr.withCredentials = true;
-				xhr.onreadystatechange = function () {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						window.location.href = redirUrl;
-					} else if (xhr.readyState == 4) {
-						document.getElementById('error-message').style.display = 'block';
-						document.getElementById('error-message').innerHTML = xhr.status + ': ' + xhr.statusText;							
-					}
-				};
-				xhr.open("GET", redirUrl);
-				xhr.setRequestHeader("Authorization", "Bearer " + bearer);
-				xhr.setRequestHeader("cache-control", "no-cache");
-				xhr.send(data);					
-			} else if (getJson.readyState == 4) {
-				document.getElementById('error-message').style.display = 'block';
-				document.getElementById('error-message').innerHTML = getJson.status + ': ' + getJson.statusText;				
-			}
-		}
-		getJson.open("GET", "./config.json?rnd=" + Math.random());
-		getJson.send();
-	} 
 	</script>
 </body>
 </html>
