@@ -1,5 +1,5 @@
 # Self-contained JWT-based Login Solution for Qlik Sense
-This is a custom Login Page based on JWT tokens, which works without any external authorization authority like Local Windows Accounts etc. Use it for testing. Special thanks to Thomas Haenig, Akquinet, for sharing this https://github.com/q2g/q2g-web-jwtproxyredirect which is part of this solution.
+This is a custom Login Page based on JWT tokens, which works without any external authorization authority like Local Windows Accounts etc. Use it for testing. Special thanks to Thomas Haenig, Akquinet, for sharing this https://github.com/q2g/q2g-web-jwtproxyredirect which leading the direction of this solution.
 
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/jwttokenslogin2.gif "screenshot")
 
