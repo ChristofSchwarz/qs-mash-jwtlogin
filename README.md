@@ -6,7 +6,7 @@ This is a custom Login Page based on JWT tokens, which works without any externa
 ## How to set up
 
  - Create two virtual proxies
-   * Setup a Virtual Proxy with authentication "only anonymous" (I called this virtual proxy "extern" below)
+   * Setup a Virtual Proxy with authentication "Always anonymous user" (I called this virtual proxy "extern" below)
 ![alttext](https://github.com/ChristofSchwarz/pics/raw/master/vproxyscreen3.png "screenshot")   
    * don't forget to set the load-balancing to the Central node (or others if you've got rim nodes)
    * don't forget to link this virtual proxies with the Central Proxy
