@@ -1,3 +1,10 @@
+function showErr(message) {
+	var em = document.getElementById('error-message');
+	em.style.display = 'block';
+	em.innerText = message;
+}
+
+// Import config.json using native JavaScript
 var getJson = new XMLHttpRequest;
 var config;
 getJson.open("GET", "./config.json?rnd=" + Math.random());
@@ -8,16 +15,17 @@ getJson.onreadystatechange = function() {
 			console.log((Object.keys(config).length - 1) + ' user(s) set up.');
 		} 
 		catch(err) {
-			document.getElementById('error-message').style.display = 'block';
-			document.getElementById('error-message').innerText = 'config.json has bad format';
+			showErr('config.json has bad format');
 			console.log(err);
 		}	
 	} else if (getJson.readyState == 4) {
-		alert('Cannot get config.json');
+		showErr('Cannot get config.json');
 		console.log(getJson.status + ': ' + getJson.statusText);				
 	}
 }
 getJson.send();
+
+
 
 window.addEventListener("load", function () {
 	// Access the form element...
@@ -26,46 +34,55 @@ window.addEventListener("load", function () {
 	// ...and take over its submit event.
 	form.addEventListener("submit", function (event) {
 		event.preventDefault();
-		var em = document.getElementById('error-message');
-		var user = document.getElementById("username-input").value.toLowerCase();
-		var pwd = document.getElementById("password-input").value;
-		if ((user.length * pwd.length) == 0) {
-			em.style.display = 'block';
-			em.innerText = 'Please fill in username and password';
-			return false;
-		} 
-		var lookup = CryptoJS.MD5(user) + "";
-		var token = config[lookup];
-		if (token == undefined) {
-			em.innerHTML = "Unknown user";
-			em.style.display = 'block';
+		var user = document.getElementById("username-input");
+		var pwd = document.getElementById("password-input");
+		var bearer = document.getElementById("token-input");
+		var encToken;
+		var redirUrl = config.redirUrl;
+		redirUrl += ((redirUrl.indexOf('?') < 0) ? '?' : '&') + 'rnd=' + Math.random();		
+		
+		if (user) {
+			user = user.value.toLowerCase();
+			if (user.length == 0) {
+				showErr('Please enter username.');
+				return false;
+			} 
+		}
+		if (pwd) {
+			pwd = pwd.value;
+			if (pwd.length == 0) return showErr('Please enter password.');
+		}
+		if (bearer) {
+			bearer = bearer.value
 		} else {
+			var userHash = CryptoJS.MD5(user) + "";
+			encToken = config[userHash];
+			if (encToken == undefined) {
+				showErr('Unknown user');
+				return false;
+			}
 			try {
-				var bearer = CryptoJS.AES.decrypt(token, pwd).toString(CryptoJS.enc.Utf8);		
-				var redirUrl = config.redirUrl;
-				redirUrl += ((redirUrl.indexOf('?') < 0) ? '?' : '&') + 'rnd=' + Math.random();
-				console.log('Redirecting to: ', redirUrl);
-				var xhr = new XMLHttpRequest();
-				xhr.open("GET", redirUrl);
-				xhr.setRequestHeader("Authorization", "Bearer " + bearer);
-				xhr.setRequestHeader("cache-control", "no-cache");				
-				xhr.withCredentials = true;
-				xhr.onreadystatechange = function () {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						window.location.href = redirUrl;
-					} else if (xhr.readyState == 4) {
-						document.getElementById('error-message').style.display = 'block';
-						document.getElementById('error-message').innerHTML = 'Your access-token was rejected.';							
-					}
-				};
-				xhr.send();									
+				bearer = CryptoJS.AES.decrypt(encToken, pwd).toString(CryptoJS.enc.Utf8);		
+			}
+			catch (err) {
+				showErr('Invalid password');
+				return false;
+			}
+		}
 
+		console.log('Redirecting to: ', redirUrl);
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", redirUrl);
+		xhr.setRequestHeader("Authorization", "Bearer " + bearer);
+		xhr.setRequestHeader("cache-control", "no-cache");				
+		xhr.withCredentials = true;
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				window.location.href = redirUrl;
+			} else if (xhr.readyState == 4) {
+				return showErr('Your access-token was rejected.');		
 			}
-			catch(err) {
-				em.style.display = 'block';
-				em.innerText = "Invalid password";
-				console.log(err);
-			}
-		}	
+		};
+		xhr.send();									
 	});
 });
