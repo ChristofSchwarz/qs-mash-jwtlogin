@@ -4,6 +4,24 @@ function showErr(message) {
 	em.innerText = message;
 }
 
+function redirWithBearer(redirUrl, bearer) {
+
+	console.log('Redirecting to: ', redirUrl);
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", redirUrl);
+	xhr.setRequestHeader("Authorization", "Bearer " + bearer);
+	xhr.setRequestHeader("cache-control", "no-cache");				
+	xhr.withCredentials = true;
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			window.location.href = redirUrl;
+		} else if (xhr.readyState == 4) {
+			return showErr('Your access-token was rejected.');		
+		}
+	};
+	xhr.send();
+}
+
 // Import config.json using native JavaScript
 var getJson = new XMLHttpRequest;
 var config;
@@ -13,6 +31,16 @@ getJson.onreadystatechange = function() {
 		try {
 			config = JSON.parse(getJson.responseText);
 			console.log((Object.keys(config).length - 1) + ' user(s) set up.');
+			
+			// Shortcut! if "bearer=" was provided as url query string
+			// make a immediate redirect with that bearer as Authentication header
+			var bearer = location.search.split('bearer=');
+			if (bearer.length > 1) {
+				bearer = bearer[1].split('&')[0];
+				var redirUrl = config.redirUrl;
+				redirUrl += ((redirUrl.indexOf('?') < 0) ? '?' : '&') + 'rnd=' + Math.random();
+				redirWithBearer(redirUrl, bearer);
+			}
 		} 
 		catch(err) {
 			showErr('config.json has bad format');
@@ -23,7 +51,7 @@ getJson.onreadystatechange = function() {
 		console.log(getJson.status + ': ' + getJson.statusText);				
 	}
 }
-getJson.send();
+getJson.send();  // this will load "config.json" from same relative path
 
 
 
@@ -63,19 +91,6 @@ window.addEventListener("load", function () {
 			}
 		}
 
-		console.log('Redirecting to: ', redirUrl);
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", redirUrl);
-		xhr.setRequestHeader("Authorization", "Bearer " + bearer);
-		xhr.setRequestHeader("cache-control", "no-cache");				
-		xhr.withCredentials = true;
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				window.location.href = redirUrl;
-			} else if (xhr.readyState == 4) {
-				return showErr('Your access-token was rejected.');		
-			}
-		};
-		xhr.send();									
+		redirWithBearer(redirUrl, bearer);
 	});
 });
