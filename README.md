@@ -38,6 +38,12 @@ This is a custom Login Page based on JWT tokens, which works without any externa
 https://senseserver.com/extern/extensions/login/login.html
  - there is also a page /extensions/login/testtoken.html, which allows you to paste the token itself (printed on the screen by executing createtoken.js). It doesn't ask for username/password, since the token itself contains the "payload" of who the user claims to be. __But don't give the token to the user__ since it is not possible to revoke access with future consumptions of that token (only by reconfiguring the jwt virtual proxy)
 
+### alternative use: bearer as url query string
+
+If you know the bearer token already you can use it in the querystring like:
+https://senseserver.com/extern/extensions/login/login.html?bearer=abcdefg
+This shortcuts the interpretation users defined in config.json and directly redirects the browser to the target url provided in config.json and presenting the same bearer as given in the query string as Authentication http-header (needs the jwt-configured virtual proxy)
+
 ## Security Concerns
 
 This solution is based on Json Web Tokens which have been issued without a ValidTo-date and will be presented in the http-header as bearer token. The bearer token is stored encrypted and only the user can decrypt the token with his password. There is no server authority checking the validity of the "local users", it works due to the fact that the issuer of the token has the private key of the  same certificate used at the virtual proxy (bearer authentication). Everything hereby is __client-side logic__ and this "mashup" could even be hosted outside the Qlik Sense server. That's why we needed to set up another virtual proxy ("extern" in above example) which accepts anonymous users, so everyone can least get to the /extern/extensions/login/login.html page. (In theory he/she could also go to /extern/hub or /extern/qmc but would not have any further rights there being anonymous).
