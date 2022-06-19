@@ -26,7 +26,9 @@ This is a custom Login Page based on JWT tokens, which works without any externa
  - edit the setting for "redir_targets": this is an array of allowed destinations and the sequence id (counting from 0 .. 1 .. n) is used below 
  - Issue tokens for the users 
    * Follow instructions found in subfolder <a href="https://github.com/ChristofSchwarz/qs-mash-jwtlogin/tree/master/node_createtokens">node_createtokens</a>, you'll need node, npm and to install 3 modules
-   * Copy the matching client_key into the same folder (node_createtokens) as file "client_key.pem"
+   * Copy the matching private_key into the same folder (node_createtokens) as file "private_key.pem", however if you used the Qlik Sense Client 
+     Certificate above you **don't** need to copy a file, as by default it will take the matching client_key.pem from the same Exported Certificates 
+     folder on the Server
    * tokens can be issued on another computer, it doesn't need to happen on the Sense server's remote-console (you edit the mashup via browser and that's where you add new users)
  - copy/paste the screen output to the config.json at the end (dont change "jwt_vproxy" and "redir_targets"). Each row looks like this
  ```
