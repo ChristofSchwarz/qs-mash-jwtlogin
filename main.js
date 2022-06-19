@@ -9,7 +9,6 @@ function redirWithBearer(redirUrl, bearer) {
 	console.log('Redirecting to: ', redirUrl);
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", redirUrl);
-	console.log('using bearer ' + bearer);
 	xhr.setRequestHeader("Authorization", "Bearer " + bearer);
 	xhr.setRequestHeader("cache-control", "no-cache");				
 	xhr.withCredentials = true;
@@ -121,11 +120,10 @@ window.addEventListener("load", function () {
 		textReplace.push(thisMashupName);
 		textReplace.push('redir.html');
 		textReplace = textReplace.join('/');
-		console.log('Search/Replace', textSearch, textReplace);
 		
 		var redirUrl = location.href.split(textSearch)[0] + textReplace + '?target=' + targetId.toString()
 		   + '&rnd=' + Math.random();	
-		   console.log(redirUrl);
+
 		redirWithBearer(redirUrl, bearer);
 	});
 });
