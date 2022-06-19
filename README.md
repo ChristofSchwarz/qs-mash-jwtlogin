@@ -7,11 +7,11 @@ This is a custom Login Page based on JWT tokens, which works without any externa
 
  - Create two virtual proxies
    * Setup a Virtual Proxy with authentication "Always anonymous user" (I called this virtual proxy "extern" below)
-![alttext](https://github.com/ChristofSchwarz/pics/raw/master/vproxyscreen3.png "screenshot")   
+![screenshot](https://raw.githubusercontent.com/ChristofSchwarz/pics/master/vproxyscreen3.png "screenshot")
    * don't forget to set the load-balancing to the Central node (or others if you've got rim nodes)
    * don't forget to link this virtual proxies with the Central Proxy under "Associated Items"
    * Setup a Virtual Proxy with authentication "JWT". To set it up, you will need the certificate (if you have no own, then open the __client.pem__ file from C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\\.Local Certificates and copy/paste the content into the certificate field of the Virtual Proxy)   
-![alttext](https://github.com/ChristofSchwarz/pics/raw/master/vproxyscreen1.png "screenshot")      
+![screenshot](https://raw.githubusercontent.com/ChristofSchwarz/pics/master/vproxyscreen1.png "screenshot")
    * add the base url of the server to the White-List under "Advanced" settings
    * don't forget to set the load-balancing to the Central node (or others if you've got rim nodes)
    * don't forget to link this virtual proxies with the Central Proxy under "Associated Items"
@@ -55,7 +55,7 @@ This solution is based on Json Web Tokens which have been issued without a Valid
  - Everyone theoretically can get access to the mapping table found in config.json (userid hashes and encrpyted bearer tokens) but noone can reuse it, leaving minimum chance for attacks.
 
 ### Changing a password?
-A user cannot change is password himself. This would require a replacement of the previous mapping made in config.json (login object). The token would remain the same, but the en/decryption is new. 
+A user cannot change his password himself. This would require a replacement of the previous mapping made in config.json (login object). The token would remain the same, but the en/decryption is new. 
 
 ### Final considerations
 I am using CryptoJS for hashing, encrypting and decrypting. So it is quite hard to break in, but yet __I don't recommend this as a production solution__, just for setting up test users without any other dependency. If you can, use ticketing solutions, SAML or JWT with an external IDP instead.
