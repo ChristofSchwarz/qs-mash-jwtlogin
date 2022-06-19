@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<div class="sense-login-container">
+		<span id="target"></span>
+		<script>
+		var getJson = new XMLHttpRequest;
+		var config;
+		var targetId = location.search.split('target=')[1].split('&')[0];
+		var target;
+		if (!targetId) {
+			document.getElementById('target').innerText = 'Missing query parameter "target"';
+		} else {
+			getJson.open("GET", "./config.json?rnd=" + Math.random());
+			getJson.onreadystatechange = function() {
+				if (getJson.readyState == 4 && getJson.status == 200) {
+					config = JSON.parse(getJson.responseText);
+					target = config.redir_targets[targetId];
+					if (!target) {
+						document.getElementById('target').innerText = 'Unknown target number ' + targetId;
+					} else {
+						if (target.substr(0,1) != '.' && target.substr(0,1) != '/' && target.substr(0,4) != 'http' ) {
+							target = '../../' + target; // relative paths will start 2 levels higher than extension/redir.html
+						}
+						document.getElementById('target').innerText = 'Redirecting to ' + target;
+						location.href = target;
+					}
+				}
+			}
+			getJson.send();
+		}
+		</script>
+	</div>
+</body>
+</html>
