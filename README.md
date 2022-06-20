@@ -11,9 +11,7 @@ This is a custom Login Page based on JWT tokens, which works without any externa
    * don't forget to set the load-balancing to the Central node (or others if you've got rim nodes)
    * don't forget to link this virtual proxies with the Central Proxy under "Associated Items"
    * Setup a Virtual Proxy with authentication "JWT". To set it up, you will need the certificate (if you have no own, then use this one `C:\ProgramData\Qlik\Sense\Repository\Exported Certificates\.Local Certificates\client.pem` and copy/paste the content into the certificate field of the Virtual Proxy)   
-![image](https://user-images.githubusercontent.com/15999058/174491238-6fe6c27d-d78a-4f66-9da0-dcde5ab36049.png)
-
-   * note that the JWT key for user-id is "user" and for User-Directory "directory"
+![screenshot](https://raw.githubusercontent.com/ChristofSchwarz/pics/master/vproxyscreen1.png "screenshot")
    * add the base url of the server to the White-List under "Advanced" settings
    * don't forget to set the load-balancing to the Central node (or others if you've got rim nodes)
    * don't forget to link this virtual proxies with the Central Proxy under "Associated Items"
@@ -27,9 +25,7 @@ This is a custom Login Page based on JWT tokens, which works without any externa
  - edit the setting for "redir_targets": this is an array of allowed destinations and the sequence id (counting from 0 .. 1 .. n) is used below 
  - Issue tokens for the users 
    * Follow instructions found in subfolder <a href="https://github.com/ChristofSchwarz/qs-mash-jwtlogin/tree/master/node_createtokens">node_createtokens</a>, you'll need node, npm and to install 3 modules
-   * Copy the matching private_key into the same folder (node_createtokens) as file "private_key.pem", however if you used the Qlik Sense Client 
-     Certificate above you **don't** need to copy a file, as by default it will take the matching client_key.pem from the same Exported Certificates 
-     folder on the Server
+   * Copy the matching client_key into the same folder (node_createtokens) as file "client_key.pem"
    * tokens can be issued on another computer, it doesn't need to happen on the Sense server's remote-console (you edit the mashup via browser and that's where you add new users)
  - copy/paste the screen output to the config.json at the end (dont change "jwt_vproxy" and "redir_targets"). Each row looks like this
  ```
